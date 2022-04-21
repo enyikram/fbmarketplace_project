@@ -15,4 +15,5 @@ engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{POR
 engine.execute('''SELECT * FROM products
 WHERE NOT category='N/A' ''').fetchall()
 products = pd.read_sql_table('products', engine)
-print(products.head(10))
+products['category'] = products['category'].apply(lambda x : x.split('/'))
+print(products['category'].head(10))
