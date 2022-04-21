@@ -13,7 +13,8 @@ DATABASE = 'postgres'
 engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
 
 engine.execute('''SELECT * FROM products
-WHERE NOT category='N/A' ''').fetchall()
+WHERE NOT price='N/A' ''').fetchall()
 products = pd.read_sql_table('products', engine)
 products['category'] = products['category'].apply(lambda x : x.split('/'))
-print(products['category'].head(10))
+products['category'] = products['category'].apply(lambda x : " ".join(map(str,x)))
+
